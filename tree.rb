@@ -53,8 +53,12 @@ class Tree
   def base_case(root)
     if root.left_child.nil? && root.right_child.nil?
       root = nil
-    #elsif defined?(root.left_child) && defined?(root.right_child)
-      #code that  finds the inorder sucessor, copies the contents to the node, and deletes the sucessor
+    elsif root.left_child && root.right_child
+      temporary_right_child = root.right_child
+      temporary_left_child = root.left_child
+      root = find_smallest(root.right_child)
+      root.right_child = temporary_right_child
+      root.left_child = temporary_left_child
     elsif root.left_child
       root = root.left_child
       root.left_child = nil
@@ -64,7 +68,17 @@ class Tree
     end
     root
   end
+
+  def find_smallest(root)
+    if root.left_child.nil?
+      return root
+    else
+      find_smallest(root.left_child)
+    end
+    p root
+  end
 end
+
 
 test_array = [1, 3, 5, 6, 7, 8, 9]
 test_array.sort!.uniq!
@@ -75,5 +89,5 @@ tree.insert(4, root_node)
 tree.pretty_print
 tree.insert(2, root_node)
 tree.pretty_print
-tree.delete(1, root_node)
+tree.delete(6, root_node)
 tree.pretty_print
