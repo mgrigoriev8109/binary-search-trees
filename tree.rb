@@ -40,12 +40,8 @@ class Tree
   end
 
   def delete(value, root)
-    if root.data_stored == value && root.left_child.nil? && root.right_child.nil?
-      root = nil
-    elsif root.data_stored == value && root.left_child.nil? && root.right_child.nil?
-      #base case if both exist
-    elsif root.data_stored == value && root.left_child.nil? && root.right_child.nil?
-      #base case if only one exists
+    if root.data_stored == value
+      root = base_case(root)
     elsif value < root.data_stored 
       root.left_child = delete(value, root.left_child)
     else
@@ -54,7 +50,20 @@ class Tree
     root
   end
 
-  # as some point make a def traverse(value, root) method using a proc object
+  def base_case(root)
+    if root.left_child.nil? && root.right_child.nil?
+      root = nil
+    #elsif defined?(root.left_child) && defined?(root.right_child)
+      #code that  finds the inorder sucessor, copies the contents to the node, and deletes the sucessor
+    elsif root.left_child
+      root = root.left_child
+      root.left_child = nil
+    else
+      root = root.right_child
+      root.right_child = nil
+    end
+    root
+  end
 end
 
 test_array = [1, 3, 5, 6, 7, 8, 9]
@@ -66,5 +75,5 @@ tree.insert(4, root_node)
 tree.pretty_print
 tree.insert(2, root_node)
 tree.pretty_print
-tree.delete(4, root_node)
+tree.delete(1, root_node)
 tree.pretty_print
