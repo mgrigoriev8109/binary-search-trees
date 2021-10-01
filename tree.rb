@@ -38,7 +38,23 @@ class Tree
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data_stored}"
     pretty_print(node.left_child, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left_child
   end
-  
+
+  def delete(value, root)
+    if root.data_stored == value && root.left_child.nil? && root.right_child.nil?
+      root = nil
+    elsif root.data_stored == value && root.left_child.nil? && root.right_child.nil?
+      #base case if both exist
+    elsif root.data_stored == value && root.left_child.nil? && root.right_child.nil?
+      #base case if only one exists
+    elsif value < root.data_stored 
+      root.left_child = delete(value, root.left_child)
+    else
+      root.right_child = delete(value, root.right_child)
+    end
+    root
+  end
+
+  # as some point make a def traverse(value, root) method using a proc object
 end
 
 test_array = [1, 3, 5, 6, 7, 8, 9]
@@ -49,4 +65,6 @@ tree.pretty_print
 tree.insert(4, root_node)
 tree.pretty_print
 tree.insert(2, root_node)
+tree.pretty_print
+tree.delete(4, root_node)
 tree.pretty_print
