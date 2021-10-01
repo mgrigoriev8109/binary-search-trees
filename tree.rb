@@ -32,13 +32,21 @@ class Tree
     end
     root
   end
+
+  def pretty_print(node = @root, prefix = '', is_left = true)
+    pretty_print(node.right_child, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right_child
+    puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data_stored}"
+    pretty_print(node.left_child, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left_child
+  end
+  
 end
 
-test_array = [1, 2, 3, 4, 5, 6, 8]
+test_array = [1, 3, 5, 6, 7, 8, 9]
 test_array.sort!.uniq!
-p "The test array is #{test_array}"
-p "A vertical view of the balanced binary search tree:"
 tree = Tree.new(test_array)
 root_node = tree.root
-p "The level 0 root node has a value of #{root_node.data_stored}"
-tree.insert(7, root_node)
+tree.pretty_print
+tree.insert(4, root_node)
+tree.pretty_print
+tree.insert(2, root_node)
+tree.pretty_print
