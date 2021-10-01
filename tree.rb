@@ -54,11 +54,9 @@ class Tree
     if root.left_child.nil? && root.right_child.nil?
       root = nil
     elsif root.left_child && root.right_child
-      temporary_right_child = root.right_child
-      temporary_left_child = root.left_child
-      root = find_smallest(root.right_child)
-      root.right_child = temporary_right_child
-      root.left_child = temporary_left_child
+      smallest_node = find_smallest(root.right_child)
+      root.data_stored = smallest_node.data_stored
+      delete(root.data_stored, root.right_child)
     elsif root.left_child
       root = root.left_child
       root.left_child = nil
@@ -71,11 +69,11 @@ class Tree
 
   def find_smallest(root)
     if root.left_child.nil?
-      return root
+      root
     else
-      find_smallest(root.left_child)
+      root = find_smallest(root.left_child)
     end
-    p root
+    root
   end
 end
 
