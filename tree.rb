@@ -22,39 +22,37 @@ class Tree
     root
   end
 
+  def traverse_tree(callback_method, value, root)
+    if value < root.data_stored
+      root.left_child = callback_method.call(value, root.left_child)
+    else
+      root.right_child = callback_method.call(value, root.right_child)
+    end
+  end
+
   def insert(value, root)
     if root.nil?
       root = Node.new(value)
-    elsif value < root.data_stored
-      root.left_child = insert(value, root.left_child)
     else
-      root.right_child = insert(value, root.right_child)
+      traverse_tree(method(:insert),value, root)
     end
     root
-  end
-
-  def pretty_print(node = @root, prefix = '', is_left = true)
-    pretty_print(node.right_child, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right_child
-    puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data_stored}"
-    pretty_print(node.left_child, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left_child
   end
 
   def delete(value, root)
     if root.data_stored == value
-      root = base_case(root)
-    elsif value < root.data_stored 
-      root.left_child = delete(value, root.left_child)
+      root = determine_node_children(root)
     else
-      root.right_child = delete(value, root.right_child)
+      traverse_tree(method(:delete), value, root)
     end
     root
   end
 
-  def base_case(root)
+  def determine_node_children(root)
     if root.left_child.nil? && root.right_child.nil?
       root = nil
     elsif root.left_child && root.right_child
-      smallest_node = find_smallest(root.right_child)
+      smallest_node = find_smallest_child(root.right_child)
       root.data_stored = smallest_node.data_stored
       delete(root.data_stored, root.right_child)
     elsif root.left_child
@@ -67,14 +65,25 @@ class Tree
     root
   end
 
-  def find_smallest(root)
+  def find_smallest_child(root)
     if root.left_child.nil?
       root
     else
-      root = find_smallest(root.left_child)
+      root = find_smallest_child(root.left_child)
     end
     root
   end
+
+  def find(value)
+    #returns the node with the given value
+  end
+
+  def pretty_print(node = @root, prefix = '', is_left = true)
+    pretty_print(node.right_child, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right_child
+    puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data_stored}"
+    pretty_print(node.left_child, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left_child
+  end
+
 end
 
 
