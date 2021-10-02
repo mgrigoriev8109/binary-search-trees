@@ -74,8 +74,13 @@ class Tree
     root
   end
 
-  def find(value)
-    #returns the node with the given value
+  def find(value, root)
+    if root.data_stored == value
+      p root
+    else
+      traverse_tree(method(:find), value, root)
+    end
+    root
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -98,3 +103,4 @@ tree.insert(2, root_node)
 tree.pretty_print
 tree.delete(6, root_node)
 tree.pretty_print
+tree.find(2, root_node)
