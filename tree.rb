@@ -83,12 +83,16 @@ class Tree
     root
   end
 
-  def level_order
-    #returns an array of values
-    #should traverse the tree in breadth-first level order
-    #use an array acting as a queue to keep track of child nodes yet to traverse
-    #and add new ones to the list
-    #solve with iteration first, then with recursion
+  def level_order_iterative(root)
+    discovered_nodes=[root]
+    queued_nodes=[]
+    array_of_values=[]
+
+      while discovered_nodes is not empty, push discovered_nodes.each children nodes to queued_nodes
+      then push discovered_nodes node.values into array_of_values
+      then delete discovered_nodes array
+      then copy queued_nodes array into discovered_nodes array
+
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -112,4 +116,4 @@ tree.pretty_print
 tree.delete(6, root_node)
 tree.pretty_print
 tree.find(2, root_node)
-
+tree.level_order_iterative(root_node)
