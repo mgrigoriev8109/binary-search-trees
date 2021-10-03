@@ -87,12 +87,15 @@ class Tree
     discovered_nodes=[root]
     queued_nodes=[]
     array_of_values=[]
-
-      while discovered_nodes is not empty, push discovered_nodes.each children nodes to queued_nodes
-      then push discovered_nodes node.values into array_of_values
-      then delete discovered_nodes array
-      then copy queued_nodes array into discovered_nodes array
-
+    until discovered_nodes.empty? 
+      discovered_nodes.each do |node|
+        queued_nodes.push(node.left_child, node.right_child)
+        array_of_values.push(node.data_stored)
+      end
+      discovered_nodes = []
+      discovered_nodes = queued_nodes
+      queued_nodes = []
+    end
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
