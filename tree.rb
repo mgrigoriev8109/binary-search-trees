@@ -93,7 +93,7 @@ class Tree
       discovered_nodes = queued_nodes
       queued_nodes = []
     end
-    p array_of_values
+    array_of_values
   end
 
   def level_order_recursive(root, discovered_nodes = [root], queued_nodes = [], array_of_values = [])
@@ -117,13 +117,35 @@ class Tree
     end
   end
 
-  def inorder(root, discovered_nodes = [], queued_nodes = [], array_of_values = [])
+  def inorder_depth_traversal(root, array_of_values=[])
     if root.nil?
       array_of_values
     else
-      inorder(root.left_child)
+      inorder_depth_traversal(root.left_child, array_of_values)
       array_of_values.push(root.data_stored)
-      inorder(root.right_child)
+      inorder_depth_traversal(root.right_child, array_of_values)
+    end
+    array_of_values
+  end
+
+  def pre_order_depth_traversal(root, array_of_values=[])
+    if root.nil?
+      array_of_values
+    else
+      array_of_values.push(root.data_stored)
+      inorder_depth_traversal(root.left_child, array_of_values)
+      inorder_depth_traversal(root.right_child, array_of_values)
+    end
+    array_of_values
+  end
+
+  def post_order_depth_traversal(root, array_of_values=[])
+    if root.nil?
+      array_of_values
+    else
+      inorder_depth_traversal(root.left_child, array_of_values)
+      inorder_depth_traversal(root.right_child, array_of_values)
+      array_of_values.push(root.data_stored)
     end
     array_of_values
   end
@@ -149,6 +171,9 @@ tree.pretty_print
 tree.delete(6, root_node)
 tree.pretty_print
 tree.find(2, root_node)
-#tree.level_order_iterative(root_node)
-#p tree.level_order_recursive(root_node)
-p tree.inorder(root_node)
+iterative_level_order_array = tree.level_order_iterative(root_node)
+p iterative_level_order_array
+p tree.level_order_recursive(root_node)
+p tree.inorder_depth_traversal(root_node)
+p tree.pre_order_depth_traversal(root_node)
+p tree.post_order_depth_traversal(root_node)
