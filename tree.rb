@@ -96,7 +96,7 @@ class Tree
     p array_of_values
   end
 
-  def level_order_recursive(root, discovered_nodes=[root], queued_nodes=[], array_of_values=[])
+  def level_order_recursive(root, discovered_nodes = [root], queued_nodes = [], array_of_values = [])
     if discovered_nodes.empty?
       array_of_values
     else
@@ -108,7 +108,7 @@ class Tree
     array_of_values
   end
 
-  def iterate_through_arrays(discovered_nodes=[root], queued_nodes=[], array_of_values=[])
+  def iterate_through_arrays(discovered_nodes, queued_nodes, array_of_values)
     discovered_nodes.each do |node|
       unless node.nil? 
         queued_nodes.push(node.left_child, node.right_child)
