@@ -97,8 +97,12 @@ class Tree
   end
 
   def level_order_recursive(root, discovered_nodes=[root], queued_nodes=[], array_of_values=[])
-    if discovered_nodes.empty? 
+    if discovered_nodes.empty?
+      array_of_values
     else
+      iterate_through_arrays(discovered_nodes, queued_nodes, array_of_values)
+      discovered_nodes = queued_nodes
+      queued_nodes = []
       level_order_recursive(root, discovered_nodes, queued_nodes, array_of_values)
     end
     array_of_values
@@ -135,3 +139,4 @@ tree.delete(6, root_node)
 tree.pretty_print
 tree.find(2, root_node)
 tree.level_order_iterative(root_node)
+p tree.level_order_recursive(root_node)
