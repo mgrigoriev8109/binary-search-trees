@@ -101,6 +101,15 @@ class Tree
     p array_of_values
   end
 
+  def level_order_recursive(root, discovered_nodes=[root], queued_nodes=[], array_of_values=[])
+    if discovered_nodes.empty? 
+    else
+      
+      level_order_recursive(root, discovered_nodes, queued_nodes, array_of_values)
+    end
+    array_of_values
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right_child, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right_child
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data_stored}"
