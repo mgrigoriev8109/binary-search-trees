@@ -150,6 +150,18 @@ class Tree
     array_of_values
   end
 
+  #will use #find to find the node of the value first
+  def height(root, height = 0)
+    if root.nil?
+      height
+    else
+      left_tree_height = height(root.left_child, height)
+      right_tree_height = height(root.right_child, height)
+      compare heights, return max + 1
+    end
+    height
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right_child, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right_child
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data_stored}"
@@ -159,16 +171,20 @@ class Tree
 end
 
 
-test_array = [1, 3, 5, 6, 7, 8, 9]
+test_array = [1, 3, 5, 6, 7, 8, 9, 11, 23, 19]
 test_array.sort!.uniq!
 tree = Tree.new(test_array)
 root_node = tree.root
 tree.pretty_print
 tree.insert(4, root_node)
-tree.pretty_print
 tree.insert(2, root_node)
-tree.pretty_print
-tree.delete(6, root_node)
+tree.insert(10, root_node)
+tree.insert(14, root_node)
+tree.insert(15, root_node)
+tree.insert(17, root_node)
+tree.insert(18, root_node)
+tree.insert(21, root_node)
+tree.insert(25, root_node)
 tree.pretty_print
 tree.find(2, root_node)
 iterative_level_order_array = tree.level_order_iterative(root_node)
