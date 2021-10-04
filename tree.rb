@@ -117,6 +117,17 @@ class Tree
     end
   end
 
+  def inorder(root, discovered_nodes = [], queued_nodes = [], array_of_values = [])
+    if root.nil?
+      array_of_values
+    else
+      inorder(root.left_child)
+      array_of_values.push(root.data_stored)
+      inorder(root.right_child)
+    end
+    array_of_values
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right_child, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right_child
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data_stored}"
@@ -138,5 +149,6 @@ tree.pretty_print
 tree.delete(6, root_node)
 tree.pretty_print
 tree.find(2, root_node)
-tree.level_order_iterative(root_node)
-p tree.level_order_recursive(root_node)
+#tree.level_order_iterative(root_node)
+#p tree.level_order_recursive(root_node)
+p tree.inorder(root_node)
