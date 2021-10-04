@@ -76,7 +76,7 @@ class Tree
 
   def find(value, root)
     if root.data_stored == value
-      p root
+      root
     else
       traverse_tree(method(:find), value, root)
     end
@@ -89,13 +89,16 @@ class Tree
     array_of_values=[]
     until discovered_nodes.empty? 
       discovered_nodes.each do |node|
-        queued_nodes.push(node.left_child, node.right_child)
-        array_of_values.push(node.data_stored)
+        unless node.nil? 
+          queued_nodes.push(node.left_child, node.right_child)
+          array_of_values.push(node.data_stored)
+        end
       end
       discovered_nodes = []
       discovered_nodes = queued_nodes
       queued_nodes = []
     end
+    p array_of_values
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
