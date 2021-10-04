@@ -88,12 +88,7 @@ class Tree
     queued_nodes=[]
     array_of_values=[]
     until discovered_nodes.empty? 
-      discovered_nodes.each do |node|
-        unless node.nil? 
-          queued_nodes.push(node.left_child, node.right_child)
-          array_of_values.push(node.data_stored)
-        end
-      end
+      iterate_through_arrays(discovered_nodes, queued_nodes, array_of_values)
       discovered_nodes = []
       discovered_nodes = queued_nodes
       queued_nodes = []
@@ -104,10 +99,18 @@ class Tree
   def level_order_recursive(root, discovered_nodes=[root], queued_nodes=[], array_of_values=[])
     if discovered_nodes.empty? 
     else
-      
       level_order_recursive(root, discovered_nodes, queued_nodes, array_of_values)
     end
     array_of_values
+  end
+
+  def iterate_through_arrays(discovered_nodes=[root], queued_nodes=[], array_of_values=[])
+    discovered_nodes.each do |node|
+      unless node.nil? 
+        queued_nodes.push(node.left_child, node.right_child)
+        array_of_values.push(node.data_stored)
+      end
+    end
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
