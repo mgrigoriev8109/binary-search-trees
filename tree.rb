@@ -153,7 +153,6 @@ class Tree
     array_of_values
   end
 
-  #will use #find to find the node of the value first
   def height(root, height = 0, left_tree_height = 0, right_tree_height = 0)
     if root.nil?
       height -= 1
@@ -167,6 +166,17 @@ class Tree
       end
     end
     height
+  end
+
+  def depth(root, depth = 0)
+    if root.data_stored == value
+      depth -= 1
+    else
+      depth += 1
+      depth(root.left_child, depth)
+      depth(root.right_child, depth)
+    end
+    depth
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -203,3 +213,5 @@ p tree.post_order_depth_traversal(root_node)
 found_node = tree.find(3, root_node)
 height = tree.height(found_node)
 p height
+depth = tree.height(found_node)
+p depth
