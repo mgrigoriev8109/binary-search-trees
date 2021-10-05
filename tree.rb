@@ -195,6 +195,11 @@ class Tree
     balanced
   end
 
+  def rebalance(root)
+    sorted_array_of_nodes = inorder_depth_traversal(root)
+    @root = build_tree(sorted_array_of_nodes)
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right_child, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right_child
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data_stored}"
@@ -234,3 +239,5 @@ found_node = tree.find(15, root_node)
 #depth = tree.depth(root_node, found_node)
 #p depth
 puts tree.balanced?(root_node)
+tree.rebalance(root_node)
+tree.pretty_print
