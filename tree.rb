@@ -22,14 +22,6 @@ class Tree
     root
   end
 
-  def traverse_tree(callback_method, value, root)
-    if value < root.data_stored
-      root.left_child = callback_method.call(value, root.left_child)
-    else
-      root.right_child = callback_method.call(value, root.right_child)
-    end
-  end
-
   def insert(value, root)
     if root.nil?
       root = Node.new(value)
@@ -74,11 +66,22 @@ class Tree
     root
   end
 
+  def traverse_tree(callback_method, value, root)
+    if value < root.data_stored
+      root.left_child = callback_method.call(value, root.left_child)
+    else
+      root.right_child = callback_method.call(value, root.right_child)
+    end
+    root
+  end
+
   def find(value, root)
     if root.data_stored == value
       root
+    elsif value < root.data_stored
+      root = find(value, root.left_child)
     else
-      traverse_tree(method(:find), value, root)
+      root = find(value, root.right_child)
     end
     root
   end
@@ -117,7 +120,7 @@ class Tree
     end
   end
 
-  def inorder_depth_traversal(root, array_of_values=[])
+  def inorder_depth_traversal(root, array_of_values =[])
     if root.nil?
       array_of_values
     else
@@ -128,7 +131,7 @@ class Tree
     array_of_values
   end
 
-  def pre_order_depth_traversal(root, array_of_values=[])
+  def pre_order_depth_traversal(root, array_of_values = [])
     if root.nil?
       array_of_values
     else
@@ -139,7 +142,7 @@ class Tree
     array_of_values
   end
 
-  def post_order_depth_traversal(root, array_of_values=[])
+  def post_order_depth_traversal(root, array_of_values = [])
     if root.nil?
       array_of_values
     else
@@ -151,13 +154,17 @@ class Tree
   end
 
   #will use #find to find the node of the value first
-  def height(root, height = 0)
+  def height(root, height = 0, left_tree_height = 0, right_tree_height = 0)
     if root.nil?
       height
     else
-      left_tree_height = height(root.left_child, height)
-      right_tree_height = height(root.right_child, height)
-      compare heights, return max + 1
+      left_tree_height = height(root.left_child, height, left_tree_height, right_tree_height)
+      right_tree_height = height(root.right_child, height, left_tree_height, right_tree_height)
+      if left_tree_height > right_tree_height
+        height = left_tree_height + 1
+      else
+        height = right_tree_height + 1
+      end
     end
     height
   end
@@ -186,10 +193,13 @@ tree.insert(18, root_node)
 tree.insert(21, root_node)
 tree.insert(25, root_node)
 tree.pretty_print
-tree.find(2, root_node)
 iterative_level_order_array = tree.level_order_iterative(root_node)
 p iterative_level_order_array
 p tree.level_order_recursive(root_node)
 p tree.inorder_depth_traversal(root_node)
 p tree.pre_order_depth_traversal(root_node)
 p tree.post_order_depth_traversal(root_node)
+height = tree.height(root_node)
+p height
+found_node = tree.find(5, root_node)
+p found_node
