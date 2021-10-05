@@ -168,13 +168,18 @@ class Tree
     height
   end
 
-  def depth(root, depth = 0)
-    if root.data_stored == value
-      depth -= 1
+  def depth(root, depth_root, depth = 0)
+    p depth_root.data_stored
+    p root.data_stored
+    p depth
+    if root.data_stored == depth_root.data_stored
+      depth
+    elsif depth_root.data_stored < root.data_stored
+      depth += 1
+      depth = depth(root.left_child, depth_root, depth)
     else
       depth += 1
-      depth(root.left_child, depth)
-      depth(root.right_child, depth)
+      depth = depth(root.right_child, depth_root, depth)
     end
     depth
   end
@@ -210,8 +215,9 @@ p tree.inorder_depth_traversal(root_node)
 p tree.pre_order_depth_traversal(root_node)
 p tree.post_order_depth_traversal(root_node)
 
-found_node = tree.find(3, root_node)
+found_node = tree.find(15, root_node)
 height = tree.height(found_node)
 p height
-depth = tree.height(found_node)
+p "Depth test"
+depth = tree.depth(root_node, found_node)
 p depth
