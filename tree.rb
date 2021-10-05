@@ -156,7 +156,7 @@ class Tree
   #will use #find to find the node of the value first
   def height(root, height = 0, left_tree_height = 0, right_tree_height = 0)
     if root.nil?
-      height
+      height -= 1
     else
       left_tree_height = height(root.left_child, height, left_tree_height, right_tree_height)
       right_tree_height = height(root.right_child, height, left_tree_height, right_tree_height)
@@ -199,7 +199,7 @@ p tree.level_order_recursive(root_node)
 p tree.inorder_depth_traversal(root_node)
 p tree.pre_order_depth_traversal(root_node)
 p tree.post_order_depth_traversal(root_node)
-height = tree.height(root_node)
+
+found_node = tree.find(3, root_node)
+height = tree.height(found_node)
 p height
-found_node = tree.find(5, root_node)
-p found_node
