@@ -14,7 +14,6 @@ class Tree
       nil
     else 
       middle_index = (start_index + end_index) / 2
-      p "node.data_stored == #{array[middle_index]}"
       root = Node.new(array[middle_index])
       root.left_child = build_tree(array, start_index, middle_index - 1)
       root.right_child = build_tree(array, middle_index + 1, end_index)
@@ -208,36 +207,29 @@ class Tree
 
 end
 
-
-test_array = [1, 3, 5, 6, 7, 8, 9, 11, 23, 19]
-test_array.sort!.uniq!
-tree = Tree.new(test_array)
-root_node = tree.root
-tree.pretty_print
-puts tree.balanced?(root_node)
-tree.insert(4, root_node)
-tree.insert(2, root_node)
-tree.insert(10, root_node)
-tree.insert(14, root_node)
-tree.insert(15, root_node)
-tree.insert(17, root_node)
-tree.insert(18, root_node)
-tree.insert(21, root_node)
-tree.insert(25, root_node)
-tree.pretty_print
-iterative_level_order_array = tree.level_order_iterative(root_node)
-p iterative_level_order_array
-p tree.level_order_recursive(root_node)
-p tree.inorder_depth_traversal(root_node)
-p tree.pre_order_depth_traversal(root_node)
-p tree.post_order_depth_traversal(root_node)
-found_node = tree.find(15, root_node)
-#p "Height test for node with value 15"
-#height = tree.height(found_node)
-#p height
-#p "Depth test for node with value 15"
-#depth = tree.depth(root_node, found_node)
-#p depth
-puts tree.balanced?(root_node)
-tree.rebalance(root_node)
-tree.pretty_print
+random_array = (Array.new(15) { rand(1..100) })
+random_array.sort!.uniq!
+new_tree = Tree.new(random_array)
+new_root_node = new_tree.root
+puts "A display of a Binary Search Tree generated from the array #{random_array}"
+new_tree.pretty_print
+puts "Is the Binary Search Tree balanced? True if balanced, False if not: #{new_tree.balanced?(new_root_node)}"
+puts "The tree in level order: #{new_tree.level_order_recursive(new_root_node)}"
+puts "The tree in inorder: #{new_tree.inorder_depth_traversal(new_root_node)}"
+puts "The tree in pre order: #{new_tree.pre_order_depth_traversal(new_root_node)}"
+puts "The tree in post order: #{new_tree.post_order_depth_traversal(new_root_node)}"
+new_tree.insert(111, new_root_node)
+new_tree.insert(122, new_root_node)
+new_tree.insert(133, new_root_node)
+new_tree.insert(144, new_root_node)
+puts "A display of a Binary Search Tree with four newly added values"
+new_tree.pretty_print
+puts "Is the Binary Search Tree balanced? True if balanced, False if not: #{new_tree.balanced?(new_root_node)}"
+new_root_node = new_tree.rebalance(new_root_node)
+puts "A display of a Binary Search Tree after being rebalanced"
+new_tree.pretty_print
+puts "Is the Binary Search Tree balanced? True if balanced, False if not: #{new_tree.balanced?(new_root_node)}"
+puts "The new tree in level order: #{new_tree.level_order_recursive(new_root_node)}"
+puts "The new tree in inorder: #{new_tree.inorder_depth_traversal(new_root_node)}"
+puts "The new tree in pre order: #{new_tree.pre_order_depth_traversal(new_root_node)}"
+puts "The new tree in post order: #{new_tree.post_order_depth_traversal(new_root_node)}"
