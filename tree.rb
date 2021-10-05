@@ -169,9 +169,6 @@ class Tree
   end
 
   def depth(root, depth_root, depth = 0)
-    p depth_root.data_stored
-    p root.data_stored
-    p depth
     if root.data_stored == depth_root.data_stored
       depth
     elsif depth_root.data_stored < root.data_stored
@@ -182,6 +179,20 @@ class Tree
       depth = depth(root.right_child, depth_root, depth)
     end
     depth
+  end
+
+  def balanced?(root, balanced = true)
+    if root.nil?
+      true
+    elsif (height(root.left_child) - height(root.right_child)) > 1
+      balanced = false
+    elsif (height(root.left_child) - height(root.right_child)) < 0
+      balanced = false
+    else
+      balanced?(root.left_child)
+      balanced?(root.right_child)
+    end
+    balanced
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -198,6 +209,7 @@ test_array.sort!.uniq!
 tree = Tree.new(test_array)
 root_node = tree.root
 tree.pretty_print
+puts tree.balanced?(root_node)
 tree.insert(4, root_node)
 tree.insert(2, root_node)
 tree.insert(10, root_node)
@@ -214,10 +226,11 @@ p tree.level_order_recursive(root_node)
 p tree.inorder_depth_traversal(root_node)
 p tree.pre_order_depth_traversal(root_node)
 p tree.post_order_depth_traversal(root_node)
-
 found_node = tree.find(15, root_node)
-height = tree.height(found_node)
-p height
-p "Depth test"
-depth = tree.depth(root_node, found_node)
-p depth
+#p "Height test for node with value 15"
+#height = tree.height(found_node)
+#p height
+#p "Depth test for node with value 15"
+#depth = tree.depth(root_node, found_node)
+#p depth
+puts tree.balanced?(root_node)
